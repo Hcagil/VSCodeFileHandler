@@ -4,6 +4,10 @@
   "description": "",
   "version": "0.0.1",
   "publisher": "HayrullahCagil",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hcagil/VSCodeFileHandler"
+  },
   "engines": {
     "vscode": "^1.91.0"
   },
