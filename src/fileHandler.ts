@@ -12,7 +12,8 @@ enum FileType {
     JavaScript = CommentType.DoubleSlash,
     TypeScript = CommentType.DoubleSlash,
     Cpp = CommentType.DoubleSlash,
-    C = CommentType.DoubleSlash
+    C = CommentType.DoubleSlash,
+    CMake = CommentType.Hash
 
 }
 
@@ -30,42 +31,14 @@ export function getFileType(document: vscode.TextDocument): string {
         return FileType.Cpp;
     else if (strFileType === 'c')
         return FileType.C;
+    else if (strFileType === 'cmake')
+        return FileType.CMake;
     else
         return "";
 
 }
 
 export async function clearComments(context: vscode.WindowState) {
-    // const editor = vscode.window.activeTextEditor;
-    // if (!editor) {
-    //     return;
-    // }
-
-    // const fileType = getFileType(editor.document);
-
-    // try {
-    //     // Read file content
-    //     const filePath = editor.document.uri.fsPath;
-    //     const content = fs.readFileSync(filePath, 'utf8');
-
-    //     // Split content into lines, filter out lines starting with '#', and join remaining lines
-    //     const filteredContent = content
-    //         .split('\n')
-    //         .filter(line => !line.trim().startsWith(fileType))
-    //         .join('\n');
-
-    //     // Write the cleaned content back to the file
-    //     fs.writeFileSync(filePath, filteredContent, 'utf8');
-    //     vscode.window.showInformationMessage('Comments Cleared successfully!');
-    // } catch (error) {
-    //     // Type assertion to `Error` to access `message` property
-    //     if (error instanceof Error) {
-    //         vscode.window.showErrorMessage(`Error processing file: ${error.message}`);
-    //     } else {
-    //         // Handle case where error is not of type `Error`
-    //         vscode.window.showErrorMessage('An unknown error occurred.');
-    //     }    }
-
     const editor = vscode.window.activeTextEditor;
 
     if (!editor) {
@@ -74,10 +47,14 @@ export async function clearComments(context: vscode.WindowState) {
     }
     const fileType = getFileType(editor.document);
 
+    if (fileType === "") {
+        vscode.window.showErrorMessage('File type not supported.');
+        return;
+    }
+
     const document = editor.document;
     const content = document.getText();
-
-    // Filter out lines starting with '#'
+    
     const cleanedContent = content
         .split('\n')
         .filter(line => !line.trim().startsWith(fileType))
