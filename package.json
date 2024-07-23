@@ -2,6 +2,7 @@
   "name": "filehandler",
   "displayName": "FileHandler",
   "description": "",
+  "icon": "images/icon.png",
   "version": "0.1.1",
   "publisher": "HayrullahCagil",
   "repository": {
