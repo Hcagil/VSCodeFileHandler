@@ -15,8 +15,9 @@ enum FileType {
 }
 
 export function getFileType(document: vscode.TextDocument): string {
-  const fileName: string = document.fileName;
-  const strFileType = fileName.split(".").pop();
+  const filePath: string = document.fileName;
+  const fileName: string = filePath.split("\\").pop() as string;
+  const strFileType: string = filePath.split(".").pop() as string;
 
   if (strFileType === "py") {
     return FileType.Python;
@@ -29,7 +30,8 @@ export function getFileType(document: vscode.TextDocument): string {
   } else if (strFileType === "c") {
     return FileType.C;
   } else if (strFileType === "txt") {
-    if (fileName === "CMakeLists.txt") {
+    console.log("fileName: ", fileName);
+    if (fileName.toLowerCase() === "cmakelists.txt") {
       return FileType.CMake;
     }
   }
